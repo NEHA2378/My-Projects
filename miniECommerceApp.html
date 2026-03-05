@@ -1,0 +1,126 @@
+<html>
+    <head>
+        <title>Product Tab</title>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+                font-family: sans-serif;
+                list-style: none;
+                box-sizing: border-box;
+            }
+            .productSection{
+                width: 100%;
+                padding: 50px 0px;
+                background-color: black;
+
+            }
+            .productSection h1{
+                text-align: center;
+                color: white;
+            }
+            .productMid{
+                max-width: 1320px;
+                margin: auto;
+                display: flex;
+                gap: 40px;
+            } 
+            .productMid aside{
+                flex-basis: 25%;
+                background-color: white;
+                padding: 20px;
+            }
+            .productMid aside ul{
+                margin-top: 20px;
+            }
+            .productMid aside ul li{
+                margin-top: 10px;
+            }
+            .productList{
+                flex-basis: 75%;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            .productCard{
+                background-color: white;
+            }
+            .productCard h3{
+                padding: 10px;
+            }
+            .productCard img{
+                width: 100%;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <section class="productSection">
+            <h1>Product</h1>
+            <div class="productMid">
+                <aside>
+                    <h3>Category</h3>
+
+                    <ul>
+                        <li> </li>
+                    </ul>
+                </aside>
+                <div class="productList">
+                    
+                </div>
+            </div>
+        </section>
+    </body>
+
+    <script>
+
+        let productListElement = document.querySelector(".productList")
+        let productMidULElement = document.querySelector(".productMid aside ul")
+
+        let getProduct = async (catslug ='') =>{
+            productListElement.innerHTML =''
+            let apiUrl;
+            if(catslug===''){
+                apiUrl = `https://dummyjson.com/products`
+            }
+            else{
+                apiUrl = `https://dummyjson.com/products/category/${catslug }`
+            }
+            let APIRes = await fetch(apiUrl)
+            let finalRes = await APIRes.json()
+            let {products} = finalRes
+           
+
+           let list =''
+           products.forEach((object) => {
+            let {title,description, thumbnail,price} = object
+            list += `
+            <div class="productCard">
+                        <img src="${thumbnail}" alt="">
+                        <h3>${title}</h3>
+                    </div>
+            `
+           });
+
+           productListElement.innerHTML = list
+
+           }
+           let getAllCategories = async ()=>{
+            let apiRes = await fetch(`https://dummyjson.com/products/categories`)
+            let data = await apiRes.json()
+            let catList = ''
+            data.forEach((obj) =>{
+                let {slug, name} = obj
+                catList+=`<li onclick = "getProduct('${slug}')">${name}</li>`
+            })
+
+            productMidULElement.innerHTML = catList
+           }
+        //    console.log(finalRes)
+        //    console.log(finalRes.products)
+        
+
+        getProduct()
+        getAllCategories()
+    </script>
+</html>

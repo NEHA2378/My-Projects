@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-text {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Age Calculator</h1>
+
+        <div class="input-group">
+            <label for="dob">Date of Birth</label>
+            <input type="datetime-local" id="dob" placeholder="Select your date of birth">
+        </div>
+
+        <button onclick="calculateAge()">Calculate Age</button>
+
+        <div class="result" id="result">
+            <div class="result-text">
+                <span id="ageOutput"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        function calculateAge() {
+            let currentDate = new Date()
+            let userDate = document.getElementById("dob").value
+            let birthDate = new Date(userDate)
+            let milliSecTillBirth = birthDate.getTime();
+            let milliSecTillNow = currentDate.getTime();
+
+            let ageDiffInMilliSec = milliSecTillNow - milliSecTillBirth
+
+            let years = Math.floor(ageDiffInMilliSec / (1000 * 60 * 60 * 24 * 365.25))
+            let months = Math.floor((ageDiffInMilliSec % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30))
+            let days = Math.floor(((ageDiffInMilliSec % (1000 * 60 * 60 * 24 * 365.25)) % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24))
+            let hours = Math.floor((((ageDiffInMilliSec % (1000 * 60 * 60 * 24 * 365.25)) % (1000 * 60 * 60 * 24 * 30)) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+            let minutes = Math.floor(((((ageDiffInMilliSec % (1000 * 60 * 60 * 24 * 365.25)) % (1000 * 60 * 60 * 24 * 30)) % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) / (1000 * 60))
+            let seconds = Math.floor((((((ageDiffInMilliSec % (1000 * 60 * 60 * 24 * 365.25)) % (1000 * 60 * 60 * 24 * 30)) % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) % (1000 * 60)) / (1000))
+
+            let ageOutput = document.querySelector("#ageOutput")
+            if(userDate == ''){
+                ageOutput.innerHTML = "Please Select Your Birth Date";
+            }
+            else{
+                ageOutput.innerHTML = `You are ${years} years, ${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds old`;
+            }
+
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
+</body>
+
+</html>

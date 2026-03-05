@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sale Countdown</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            gap: 50px;
+        }
+
+        header input {
+            padding: 20px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        header button {
+            padding: 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .sale-tag {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .time-unit {
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 20px 30px;
+            min-width: 100px;
+        }
+
+        .days, .hours, .minutes, .seconds {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            line-height: 1;
+        }
+
+        .label {
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .cta-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #764ba2;
+        }
+    </style>
+</head>
+
+<body>
+    <header><input type="datetime-local">
+        <button>Start CountDown</button>
+    </header>
+    <div class="container">
+        <h1>Mega Sale!</h1>
+        <span class="sale-tag">LIMITED TIME OFFER</span>
+
+        <p>Don't miss out on our biggest sale of the year!</p>
+
+        <div class="countdown">
+            <div class="time-unit">
+                <div class="days">00</div>
+                <div class="label">Days</div>
+            </div>
+            <div class="time-unit">
+                <div class="hours">00</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="time-unit">
+                <div class="minutes">00</div>
+                <div class="label">Minutes</div>
+            </div>
+            <div class="time-unit">
+                <div class="seconds">00</div>
+                <div class="label">Seconds</div>
+            </div>
+        </div>
+
+        <button class="cta-button">Shop Now</button>
+    </div>
+    <script>
+    let saleDateElement = document.querySelector("input");
+    let startBtn = document.querySelector("header button");
+
+    let daysElement = document.querySelector(".days");
+    let hoursElement = document.querySelector(".hours");
+    let minutesElement = document.querySelector(".minutes");
+    let secondsElement = document.querySelector(".seconds");
+
+    let interval;   // to store setInterval reference
+
+    startBtn.addEventListener("click", function () {
+
+        // clear old interval if button clicked again
+        clearInterval(interval);
+
+        let saleDate = new Date(saleDateElement.value);
+
+        if (!saleDateElement.value) {
+            alert("Please select a date first!");
+            return;
+        }
+
+        interval = setInterval(function () {
+
+            let currentDate = new Date();
+
+            let remMilliSec = saleDate - currentDate;
+
+            if (remMilliSec <= 0) {
+                clearInterval(interval);
+                daysElement.innerHTML = "00";
+                hoursElement.innerHTML = "00";
+                minutesElement.innerHTML = "00";
+                secondsElement.innerHTML = "00";
+                alert("Sale Started!");
+                return;
+            }
+
+            let remDays = Math.floor(remMilliSec / (1000 * 60 * 60 * 24));
+            let remHours = Math.floor((remMilliSec / (1000 * 60 * 60)) % 24);
+            let remMinutes = Math.floor((remMilliSec / (1000 * 60)) % 60);
+            let remSeconds = Math.floor((remMilliSec / 1000) % 60);
+
+            daysElement.innerHTML = remDays;
+            hoursElement.innerHTML = remHours;
+            minutesElement.innerHTML = remMinutes;
+            secondsElement.innerHTML = remSeconds;
+
+        }, 1000);
+
+    });
+</script>
+
+
+            <!-- let remDays = Math.floor(remMilliSec / (1000*60*60*24))
+            let remHours = Math.floor((remMilliSec % (1000*60*60*24)) / (1000*60*60))
+            let remMinutes = Math.floor(((remMilliSec / (1000*60*60*24)) % (1000*60*60)) / (1000*60))
+            let remSeconds = Math.floor((((remMilliSec / (1000*60*60*24)) / (1000*60*60)) % (1000*60)) / 1000) -->
+</body>
+
+</html>

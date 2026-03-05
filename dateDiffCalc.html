@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Difference Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result p {
+            color: #333;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .result strong {
+            color: #667eea;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Age Difference Calculator</h1>
+
+
+        <div class="form-group">
+            <label for="dob1">Person 1 - Date of Birth:</label>
+            <input type="datetime-local" id="dob1" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dob2">Person 2 - Date of Birth:</label>
+            <input type="datetime-local" id="dob2" required>
+        </div>
+
+        <button type="submit">Calculate Difference</button>
+
+
+        <div class="result" id="result">
+            <p>Age Difference:</p>
+            <p><strong id="difference">0 years, 0 months, 0 days</strong></p>
+        </div>
+    </div>
+    <script>
+        let btn = document.querySelector("button");
+        let fromDate = document.getElementById("dob1");
+        let toDate = document.getElementById("dob2");
+
+        btn.addEventListener("click", function () {
+            let fromDateObject = new Date(fromDate.value);
+            let toDateObject = new Date(toDate.value);
+
+            let fromDateObjMillisec = fromDateObject.getTime();
+            let toDateObjMillisec = toDateObject.getTime();
+
+            let diffInMillisec = Math.floor(Math.abs(fromDateObjMillisec - toDateObjMillisec));
+            let diffInSec = diffInMillisec / 1000;
+            let diffInMin = diffInSec / 60;
+            let diffInHours = diffInMin / 60;
+            let diffInDays = diffInHours / 24;
+            let diffInMonths = diffInDays / 30;
+            let diffInYears = diffInMonths / 12;
+
+            let years = Math.floor(diffInYears);
+            let months = Math.floor((diffInYears - years) * 12);
+            let days = Math.floor(((diffInYears - years) * 12 - months) * 30);
+            let hours = Math.floor((((diffInYears - years) * 12 - months) * 30 - days) * 24);
+
+            document.getElementById("difference").textContent = `${years} years, ${months} months, ${days} days, ${hours} hours`;
+            document.getElementById("result").classList.add("show");
+
+        })
+    </script>
+</body>
+
+</html>
