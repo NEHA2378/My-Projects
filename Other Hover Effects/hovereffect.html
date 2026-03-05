@@ -1,0 +1,56 @@
+<html>
+<header>
+    <title>Hover Effect</title>
+    <style>
+        body {
+            width: 100%;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+        }
+        .main{
+            width: 371px;
+            height: 251px;
+            position: relative;
+            /* border: solid red 1px; */
+        }
+        .content{
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.438);
+            position: absolute;
+            top: 0;
+            transform: scale(0);
+            transition-duration: 0.5s;
+            transform-origin: top;
+            
+        }
+
+        .main:hover .content{
+            transform: scaleX(1);
+            
+        }
+    </style>
+</header>
+
+<body>
+    <div class="main">
+        <img src="images/classroom-training.webp" />
+        <div class="content">
+        <p>Online classes provide a flexible and convenient way of learning, allowing students to attend lectures from
+            anywhere and at any time. They make education more accessible by removing geographical barriers and saving
+            travel time, which helps students focus better on their studies. With features like recorded sessions, live
+            interaction, digital notes, and online assessments, learners can study at their own pace and revise concepts
+            whenever needed.
+            
+            
+        </p>
+
+        <button>Read More</button>
+        </div>
+    </div>
+</body>
+
+</html>
